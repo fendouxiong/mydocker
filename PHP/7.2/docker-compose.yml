@@ -1,0 +1,24 @@
+version: '2'
+services :
+    nginx:
+        image: nginx:nginx
+        volumes:
+            - /Users/wuxiaofei/logs/nginx:/Logs/nginx
+            - /Users/wuxiaofei/wwwroot/mydocker/Nginx/Servers:/usr/local/nginx/conf/Servers
+            - /Users/wuxiaofei/wwwroot/mydocker/Nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+        container_name: nginx1.2
+        restart: always
+        links:
+            - php:phpfpm
+        ports:
+            - '80:80'
+            - '443:443'
+    php:
+        image: php:php72
+        container_name: php7.2
+        restart: always
+        volumes:
+            - /Users/wuxiaofei/logs/php:/Logs/php
+            - /Users/wuxiaofei/wwwroot:/data/wwwroot
+        ports:
+            - '9000'
