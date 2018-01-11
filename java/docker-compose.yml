@@ -1,0 +1,3 @@
+java:
+    image: alibeibei/java:latest
+    container_name: java

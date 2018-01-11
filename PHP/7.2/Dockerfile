@@ -2,12 +2,28 @@ FROM centos:latest
 MAINTAINER fendouxiong<wuxiaofei8023@gmail.com>
 
 RUN yum install -y autoconf automake libtool libxml2 xml2-config libxml2-devel  openssl openssl-devel libjpeg libjpeg-devel libpng libpng-devel freetype-devel mhash
-
+RUN yum install -y curl curl-devel
 ADD php-7.2.0.tar.gz /tmp
 #RUN cd /tmp/php-7.2.0 && ./configure --help
 
+#fix error: mcrypt.h not found
+#ADD libmcrypt-2.5.7.tar.gz /tmp
+#RUN cd /tmp/libmcrypt-2.5.7  && \
+#    ./configure --prefix=/usr/local/libmcrypt  && \
+#    make && make install && \
+#    rm -rf /tmp/libmcrypt-2.5.7*
+#
+##安装新版本automake
+#ADD automake-1.14.tar.gz /tmp
+#RUN yum -y remove automake && \
+#    cd /tmp/automake-1.14 && \
+#    ./configure --prefix=/usr && \
+#    make && make install && \
+#    rm -rf /tmp/automake-1.14*
+
 RUN cd /tmp/php-7.2.0 && \
-    ./configure --prefix=/usr/local/php --enable-fpm && \
+    ./configure --prefix=/usr/local/php --enable-fpm --with-openssl --with-curl --with-gd --enable-mbstring \
+    --with-pdo-mysql  --enable-zip --with-pear --enable-mysqlnd && \
     make && make install
 
 RUN cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf

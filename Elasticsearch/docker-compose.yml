@@ -1,0 +1,88 @@
+version: '2'
+services :
+    elasticsearch:
+        image: elasticsearch:elasticsearch5.6.3
+        restart: always
+        container_name: elasticsearch
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        environment:
+              XMS: 512m
+              XMX: 512m
+              NETWORK_HOST: 0.0.0.0
+              BOOTSTRAP_MEMORY_LOCK: 'false'
+              CLUSTER_NAME: "my-application"
+              NODE_NAME: "node-1"
+              NODE_MASTER: 'true'
+              NODE_DATA: 'true'
+              HTTP_POST: 9200
+              DISCOVERY_ZEN_MINIMUM_MASTER_NODES: 2
+              GATEWAY_RECOVER_AFTER_NODES: 3
+              ACTION_DESTRUCTIVE_REQUIRES_NAME: 'true'
+              HTTP_CORS_ENABLED: 'true'
+              HTTP_CORS_ALLOW_ORIGIN: '"*"'
+              DISCOVERY_ZEN_PING_UNICAST_HOSTS: '["elasticsearch","elasticsearch1","elasticsearch2"]'
+
+    elasticsearch1:
+        image: elasticsearch:elasticsearch5.6.3
+        restart: always
+        container_name: elasticsearch1
+        ports:
+            - "9201:9200"
+            - "9301:9300"
+        environment:
+              XMS: 512m
+              XMX: 512m
+              NETWORK_HOST: 0.0.0.0
+              BOOTSTRAP_MEMORY_LOCK: 'false'
+              CLUSTER_NAME: "my-application"
+              NODE_NAME: "node-2"
+              NODE_MASTER: 'true'
+              NODE_DATA: 'true'
+              HTTP_POST: 9200
+              DISCOVERY_ZEN_MINIMUM_MASTER_NODES: 2
+              GATEWAY_RECOVER_AFTER_NODES: 3
+              ACTION_DESTRUCTIVE_REQUIRES_NAME: 'true'
+              HTTP_CORS_ENABLED: 'true'
+              HTTP_CORS_ALLOW_ORIGIN: '"*"'
+              DISCOVERY_ZEN_PING_UNICAST_HOSTS: '["elasticsearch","elasticsearch1","elasticsearch2"]'
+
+    elasticsearch2:
+        image: elasticsearch:elasticsearch5.6.3
+        restart: always
+        container_name: elasticsearch2
+        ports:
+            - "9202:9200"
+            - "9302:9300"
+        environment:
+              XMS: 512m
+              XMX: 512m
+              NETWORK_HOST: 0.0.0.0
+              BOOTSTRAP_MEMORY_LOCK: 'false'
+              CLUSTER_NAME: "my-application"
+              NODE_NAME: "node-3"
+              NODE_MASTER: 'true'
+              NODE_DATA: 'true'
+              HTTP_POST: 9200
+              DISCOVERY_ZEN_MINIMUM_MASTER_NODES: 2
+              GATEWAY_RECOVER_AFTER_NODES: 3
+              ACTION_DESTRUCTIVE_REQUIRES_NAME: 'true'
+              HTTP_CORS_ENABLED: 'true'
+              HTTP_CORS_ALLOW_ORIGIN: '"*"'
+              DISCOVERY_ZEN_PING_UNICAST_HOSTS: '["elasticsearch","elasticsearch1","elasticsearch2"]'
+
+    kibana:
+        image: kibana:kibana
+        restart: always
+        container_name: kibana
+        links:
+            - "elasticsearch:elasticsearch"
+            - "elasticsearch1:elasticsearch1"
+            - "elasticsearch2:elasticsearch2"
+        ports:
+            - "5601:5601"
+        environment:
+            SERVER_HOST: 0.0.0.0
+            ES_URL: http://elasticsearch:9200
+
