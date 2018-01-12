@@ -1,11 +1,10 @@
 FROM java:java1.8
 MAINTAINER  fendouxiong <wuxiaofei8023@gmail.com>
 
-#https://artifacts.elastic.co/downloads/kibana/kibana-5.6.5-linux-x86_64.tar.gz
-ADD kibana-5.6.5-linux-x86_64.tar.gz /usr/local
+RUN cd /usr/local && wget https://artifacts.elastic.co/downloads/kibana/kibana-5.6.5-linux-x86_64.tar.gz
 
-RUN cd /usr/local && \
-     mv kibana-5.6.5-linux-x86_64 kibana &&\
+RUN cd /usr/local && tar -zxf kibana-5.6.5-linux-x86_64.tar.gz && \
+     mv kibana-5.6.5-linux-x86_64 kibana && \
      chmod +x /usr/local/kibana/bin/kibana
 
 COPY docker-entrypoin.sh  /usr/local/bin/docker-entrypoin.sh

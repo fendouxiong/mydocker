@@ -1,11 +1,10 @@
 FROM java:java1.8
 
-#https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.3.tar.gz
-ADD elasticsearch-5.6.5.tar /usr/local
+RUN cd /usr/local && wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.5.tar.gz
 
 
 #安装elasticsearch-5.6.3
-RUN cd /usr/local && mv elasticsearch-5.6.5 elasticsearch && \
+RUN cd /usr/local && tar -zxf elasticsearch-5.6.5.tar.gz && mv elasticsearch-5.6.5 elasticsearch && \
     chmod +x /usr/local/elasticsearch/bin/elasticsearch
 
 RUN groupadd elsearch && \
