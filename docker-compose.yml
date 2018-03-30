@@ -1,7 +1,7 @@
 version: '2'
 services :
     nginx:
-        image: nginx:nginx
+        image: fendouxiong/nginx:latest
         volumes:
             - /Users/wuxiaofei/logs/nginx:/Logs/nginx
             - /Users/wuxiaofei/wwwroot/mydocker/Nginx/Servers:/usr/local/nginx/conf/Servers
@@ -14,7 +14,7 @@ services :
             - '80:80'
             - '443:443'
     php:
-        image: php:php72
+        image: fendouxiong/php72:latest
         container_name: php7.2
         restart: always
         volumes:

@@ -1,0 +1,23 @@
+version: '2'
+services:
+    kafka:
+        image: alibeibei/kafka:v1
+        container_name: kafka
+        ports:
+            - "9092:9092"
+        links:
+            - "zoo1:zoo1"
+        environment:
+            BROKER_ID: 0
+            LOG_DIRS: "/data/kafka/logs"
+            ZOOKEEPER_CONNECT: zoo1:2181
+    zoo1:
+        image: alibeibei/zookeeper:latest
+        restart: always
+        container_name: zoo1
+        ports:
+            - "2181:2181"
+        environment:
+            ZOO_MY_ID: 1
+            ZOO_SERVERS: server.1=zoo1:2888:3888
+

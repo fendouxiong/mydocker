@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM fendouxiong/java18:latest
 MAINTAINER  fendouxiong <wuxiaofei8023@gmail.com>
 
 #安装javasdk

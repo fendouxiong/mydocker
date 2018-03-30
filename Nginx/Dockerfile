@@ -1,5 +1,4 @@
 FROM centos:latest
-
 MAINTAINER  fendouxiong <wuxiaofei8023@gmail.com>
 
 ADD nginx-1.12.2.tar.gz /tmp
